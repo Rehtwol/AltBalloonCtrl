@@ -1,5 +1,4 @@
-function valve=valveopenOpt(alt,time,target,sopen,Kp,Ki,Kd,Kd2)
-    area = 9.62e-6;
+function valve=airValveOpt(alt,time,target,area,sopen,Kp,Ki,Kd,Kd2)
     n = length(alt);
     alterr = zeros(n,1);
     valve=[0,0];
@@ -16,7 +15,7 @@ function valve=valveopenOpt(alt,time,target,sopen,Kp,Ki,Kd,Kd2)
         D2=(D-Dneg)/(time(n)-time(n-1));
     end
     
-    if D>0
+    if D<0
 
         score=Kp*P+Ki*I+Kd*D+D2*Kd2;
         valve(2)=score;

@@ -1,12 +1,14 @@
 
-pop = 10;
-gen = 300;
+pop = 30;
+gen = 400;
+const=massConstraint;
 GAOptions=gaoptimset('PopulationSize',pop,'Generations',gen);
-[bestvar,bestobj,history,eval_count]=ga_DSO(@LiftSimOpt,3,[],[],[],[],[0,0,0],[200,200,200],[],GAOptions);
-max_evals = 200;
+[bestvar,bestobj,history,eval_count]=ga_DSO(@FlightOps,3,[],[],[],[],const(1,:),const(2,:),[],GAOptions);
+max_evals = 300;
 options = optimset('MaxFunEvals',max_evals);
-[bestvar2,bestobj2]=fminsearchcon(@LiftSimOpt,bestvar,[0,0,0],[100,100,100],[],[],[],options);
+[bestvar2,bestobj2]=fminsearchcon(@FlightOps,bestvar,const(1,:),const(2,:),[],[],[],options);
 bestvar
 bestvar2
 bestobj2
-[eval_count, pop, gen]
+Record=LiftSimOpt(bestvar2,10000);
+plot(Record(:,1),Record(:,4))
