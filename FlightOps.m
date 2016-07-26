@@ -1,6 +1,6 @@
 function Suitability=FlightOps(PID)
     TargetAlt=10000;
-    StartTime=1900;
+    StartTime=2000;
     Record=LiftSimOpt(PID, TargetAlt);
     error=0;
     for n=1:length(Record)

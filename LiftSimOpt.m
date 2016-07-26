@@ -13,10 +13,10 @@ function airtime=LiftSimOpt(PID,TargetAlt)
     BallastDensity = 800;
     BallastSurface = 10;
 
-    Record=zeros(1441,10);
-    Record(:,1)=0:5:7200;
+    Record=zeros(3601,14);
+    Record(:,1)=0:2:7200;
     Record(1,6)=GasMass;
-    Record(1,8)=BallastMass;
+    Record(1,7)=BallastMass;
     Record(1,5)=SysMass+GasMass+BallastMass;
     Record(1,2)=liftAccel(Record(1,4),Record(1,5),Record(1,6));
 
@@ -28,20 +28,27 @@ function airtime=LiftSimOpt(PID,TargetAlt)
         %Velocity and Altitude
         Record(round,3)=min(Record(round-1,3)+Record(round-1,2)*deltaTime,5);
         Record(round,4)=Record(round-1,4)+(Record(round-1,3)+Record(round,3))*deltaTime/2;
+        %Valve Conditions
+        valve=ctrlScore(Record(max(1,round-10):round,4),Record(max(1,round-10):round,1),TargetAlt,PID(3),PID(4),PID(5),PID(6));
+        Record(round,8)=valve(1);
+        valveStat=valveLogic(valve(1),valve(4),PID(1),PID(2),BalloonValve,BallastA2);
+        Record(round,9)=valveStat(2);
+        Record(round,10)=valveStat(1);
         %Mass changes
-        airValve=airValveOpt(Record(max(1,round-10):round,4),Record(max(1,round-10):round,1),TargetAlt,BalloonValve,PID(6),PID(7),PID(8),PID(9),PID(10));
-        Record(round,10)=airValve(1);
-        GasLoss=vrelease((Record(round,4)+Record(round-1,4))/2,Record(round,10),BalloonPD);
+        GasLoss=vrelease((Record(round,4)+Record(round-1,4))/2,Record(round,9),BalloonPD);
         Record(round,6)=Record(round-1,6)-GasLoss*deltaTime;
-        BallastLoss=lqddrop(Record(round-1,8),BallastA1,Record(round-1,7),BallastDensity,BallastSurface);
-        Record(round,8)=max(Record(round-1,8)-BallastLoss*deltaTime,0);
-        Record(round,5)=Record(round,6)+Record(round,8)+SysMass;
-        %Valve Open
-        valve=valveopenOpt(Record(max(1,round-10):round,4),Record(max(1,round-10):round,1),TargetAlt,PID(1),PID(2),PID(3),PID(4),PID(5));
-        Record(round,7)=valve(1);
-        Record(round,9)=valve(2);
+        BallastLoss=lqddrop(Record(round-1,7),BallastA1,Record(round-1,10),BallastDensity,BallastSurface);
+        Record(round,7)=max(Record(round-1,7)-BallastLoss*deltaTime,0);
+        Record(round,5)=Record(round,6)+Record(round,7)+SysMass;
+
         %Acceleration for next step
         Record(round,2)=max(liftAccel(Record(round,4),Record(round,5),Record(round,6)),-9.8);
+        
+        %Note PID values at each step
+        Record(round,11)=valve(2);
+        Record(round,12)=valve(3);
+        Record(round,13)=valve(4);
+        Record(round,14)=valve(5);
 
         if Record(round,4)<0
             break;
