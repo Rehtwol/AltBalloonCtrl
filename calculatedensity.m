@@ -1,6 +1,6 @@
 function density = calculatedensity(altitude, type)
     if strcmp('air', type)
-        rspecific=286.9; %(kgm^3)
+        rspecific=287.05; %(kgm^3)
     elseif strcmp('helium', type)
         rspecific = 2077; %(kgm^3)
     end

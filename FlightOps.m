@@ -1,11 +1,25 @@
 function Suitability=FlightOps(PID)
-    TargetAlt=10000;
+    TargetAlt=[10000,8000;0,3600];
+    Bandwidth=500;
     StartTime=2000;
-    Record=LiftSimOpt(PID, TargetAlt);
+    Record=LiftSimFSM(PID, TargetAlt,Bandwidth);
     error=0;
-    for n=1:length(Record)
-        if Record(n,1)>StartTime
-            error=error+(abs(Record(n,4)-TargetAlt))^2;
-            Suitability=error/1000;
+    try
+        for n=2:length(Record)
+            if Record(n,1)>StartTime
+                for p=2:length(TargetAlt)
+                    if Record(n,1)>TargetAlt(2,p-1) && Record(n,1)<TargetAlt(2,p)
+                        target=TargetAlt(1,p-1);
+                        break;
+                    else
+                        target=TargetAlt(1,p);
+                    end
+                end
+                error=error+(abs(Record(n,4)-target))^2;
+                Suitability=error/1000;
+            end
         end
+    
+    catch ME
+        ME
     end
