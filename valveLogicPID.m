@@ -11,9 +11,6 @@ function valve=valveLogicPID(targetAlt,bandwidth,alt,time,PID)
     valve=[0,0,0,0,0,0,0];
     for r = 1:n
         alterr(r)=alt(r)-targetAlt;
-        if abs(alterr(r)) > bandwidth/2
-            alterr(r)=0;
-        end
         timerr(r)=time(r)-time(max(1,r-1));
     end
     lopen=1000;
@@ -22,15 +19,15 @@ function valve=valveLogicPID(targetAlt,bandwidth,alt,time,PID)
     I=trapz(timerr,alterr);
     D=(alterr(n)-alterr(n-1))/(time(n)-time(n-1));
 
-    scorea=Kp*P+Ki*I+Kd*D;
-    scoreb=Kp2*P+Ki2*I+Kd2*D;
+    scorea=min(Kp*P+Ki*I+Kd*D,gopen);
+    scoreb=min(Kp2*P+Ki2*I+Kd2*D,lopen);
     
-    valve(3)=scorea;
+    valve(1)=0;
 %     Valve States
-    valve(1)=scorea/gopen;
-    valve(2)=scoreb/lopen;
+    valve(2)=max(scoreb/gopen,0);
+    valve(3)=max(scorea/lopen,0);
     
     valve(4)=P;
     valve(5)=I;
     valve(6)=D;
-    valve(7)=P2;
+    valve(7)=P;

@@ -39,7 +39,7 @@ function airtime=LiftSimFSM(PID,TargetAlt,bandwidth)
         Record(cycle,3)=Record(cycle-1,3)+Record(cycle-1,2)*deltaTime;
         Record(cycle,4)=Record(cycle-1,4)+(Record(cycle-1,3)+Record(cycle,3))*deltaTime/2;
         %Valve Conditions
-        status=valveLogicFSM(target,bandwidth,Record(max(1,cycle-10):cycle,4),Record(max(1,cycle-10):cycle,1),PID);
+        status=valveLogicPID(target,bandwidth,Record(max(1,cycle-10):cycle,4),Record(max(1,cycle-10):cycle,1),PID);
         Record(cycle,8:10)=status(1:3);
         %Mass changes
         GasLoss=vrelease((Record(cycle,4)+Record(cycle-1,4))/2,Record(cycle-1,9)*BalloonValve,BalloonPD);
@@ -56,7 +56,8 @@ function airtime=LiftSimFSM(PID,TargetAlt,bandwidth)
         %Note the PID values
         Record(cycle,11:14)=status(4:7);
         Record(cycle,15)=target;
-
+        
+        
         if Record(cycle,4)<0
             break;
         end
