@@ -27,6 +27,13 @@ function valve=valveLogicPID(targetAlt,bandwidth,alt,time,PID)
     valve(2)=max(scoreb/gopen,0);
     valve(3)=max(scorea/lopen,0);
     
+    %Logic to avoid premature dumping
+    if D>1
+        valve(3)=0;
+    elseif D<-1
+        valve(2)=0;
+    end
+    
     valve(4)=P;
     valve(5)=I;
     valve(6)=D;
