@@ -1,7 +1,7 @@
 function Suitability=FlightOps(PID)
     TargetAlt=[10000,8000;0,3600];
     Bandwidth=500;
-    StartTime=2000;
+    StartTime=0;
     Record=LiftSimFSM(PID, TargetAlt,Bandwidth);
     error=0;
     try

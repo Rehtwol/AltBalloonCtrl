@@ -1,11 +1,11 @@
 function const=massConstraintPID()
     tmp=zeros(2,3);%Minimums for PID search. Liquid then gas
-    tmp(1,:)=[-1000,-1000,-1000];
+    tmp(1,:)=[-100,-100,-500];
     tmp(2,:)=[-1,-1,-1];
     
     tmp2=zeros(2,3);%Maximums for PID search. Liquid then gas
     tmp2(1,:)=[1,1,1];
-    tmp2(2,:)=[1000,1000,1000];
+    tmp2(2,:)=[100,100,500];
     
     tmp3=zeros(2,3);%Initial search point
     %Generic
