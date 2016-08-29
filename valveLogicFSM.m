@@ -29,7 +29,7 @@ function status=valveLogicFSM(targetAlt,bandwidth,alt,time,PID)
         end
     elseif alt(n) < barrier(3)
         status(1)=3;
-        valve=valveopenFSM(targetAlt,bandwidth,alt,time,Kp,Ki,Kd,Kd2);
+        valve=valveopenFSM(targetAlt,bandwidth,alt,time,D,D2,Kp,Ki,Kd,Kd2);
         status(2:3)=valve(1:2);
         status(4:7)=valve(4:7);
     elseif alt(n) < barrier(4)
