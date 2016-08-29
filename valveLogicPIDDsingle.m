@@ -23,16 +23,16 @@ function valve=valveLogicPIDDsingle(targetAlt,bandwidth,alt,time,PID)
         D2=(D-Dneg)/(time(n)-time(n-1));
     end
     score=min(Kp*P+Ki*I+Kd*D+Kd2*D2,gopen);
-    score2=score*Diff;
-    valve(1)=0;
+    score2=min(score*Diff,lopen);
+    valve(1)=score;
 %     Valve States
     valve(2)=max(score/gopen,0);
     valve(3)=max(score2/lopen,0);
     
     %Logic to avoid premature dumping
-    if D>0
+    if D>1
         valve(3)=0;
-    elseif D<0
+    elseif D<-1
         valve(2)=0;
     end
     

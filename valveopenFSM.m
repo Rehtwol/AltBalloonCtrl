@@ -1,4 +1,4 @@
-function valve=valveopenFSM(targetAlt,bandwidth,alt,time,Kp,Ki,Kd,Kd2)
+function valve=valveopenFSM(targetAlt,bandwidth,alt,time,D,D2,Kp,Ki,Kd,Kd2)
     n = length(alt);
     alterr = zeros(n,1);
     timerr = zeros(n,1);
@@ -14,12 +14,12 @@ function valve=valveopenFSM(targetAlt,bandwidth,alt,time,Kp,Ki,Kd,Kd2)
     gopen=100;
     P=(alterr(n));
     I=trapz(timerr,alterr);
-    D=(alterr(n)-alterr(n-1))/(time(n)-time(n-1));
-    D2=0;
-    if n>2
-        Dneg=(alterr(n-1)-alterr(n-2))/(time(n-1)-time(n-2));
-        D2=(D-Dneg)/(time(n)-time(n-1));
-    end
+%     D=(alterr(n)-alterr(n-1))/(time(n)-time(n-1));
+%     D2=0;
+%     if n>2
+%         Dneg=(alterr(n-1)-alterr(n-2))/(time(n-1)-time(n-2));
+%         D2=(D-Dneg)/(time(n)-time(n-1));
+%     end
     score=Kp*P+Ki*I+Kd*D+D2*Kd2;
     valve(3)=score;
     if score<0
