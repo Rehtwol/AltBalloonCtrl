@@ -3,12 +3,12 @@
 %   Output is summation of error^2 at each step
 function Suitability=FlightOps(PID)
     %Defining target flight altitudes
-    TargetAlt=[10000,8000;0,5000];
+    TargetAlt=[10000,10000;0,5000];
     %Bandwidth for controllers that use it
     Bandwidth=500;
     %To ignore initial part of simulation (the ascent) for scoring
     %StartTime>0
-    StartTime=0;
+    StartTime=2000;
     %Record stores simulation results
     Record=LiftSim(PID, TargetAlt,Bandwidth);
     error=0;
@@ -25,8 +25,9 @@ function Suitability=FlightOps(PID)
                         target=TargetAlt(1,p);
                     end
                 end
-                error=error+(Record(n,4)-target)^2;
-                Suitability=error/1000;
+                steperr=(Record(n,4)-target)^2; %Calculate error scoring
+                error=error+steperr; %Accumulate into "error"
+                Suitability=error; %Update Suitability.
             end
         end
     

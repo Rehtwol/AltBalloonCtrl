@@ -3,10 +3,8 @@ function press = lookup_pressure(altitude)
     gravity = 9.80665; %Gravity
     re = 6371e3; %Mean radius of Earth
     press = [0,0];
-    
-    gz = @(z)gravity*((re./(re+z)).^2);
-    
-    H = integral(gz,0,altitude)/gravity;
+     
+    H = (re*altitude)/(re+altitude);
     
     if H<11000
         c=0;
