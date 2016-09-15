@@ -16,10 +16,9 @@ function Suitability=FlightOps(PID)
                     end
                 end
                 error=error+(abs(Record(n,4)-target))^2;
-                Suitability=error/1000;
             end
         end
-    
+        Suitability=error/length(Record);
     catch ME
         ME
     end
