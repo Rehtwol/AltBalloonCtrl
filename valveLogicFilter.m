@@ -5,6 +5,7 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
     Kd2=PID(4);
     n = length(alt);
     status=[0,0,0,0,0,0,0];
+    Parr=zeros(n,1);
     Darr=zeros(n-1,1);
     D2arr=zeros(n-2,1);
     
@@ -16,7 +17,11 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
 
         timerr(r)=time(r)-time(1);
     end
-    P=sum(alterr)/length(alterr);
+    for r = 1:n
+        arr=alterr(max(r-5,1):r);
+        Parr(r)= sum(arr)/length(arr);
+    end
+    P=Parr(n);
     I=0;
     D=0;
     D2=0;
@@ -24,10 +29,10 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
     I=trapz(timerr,alterr);
     
     for l=1:n-1
-        Darr(l)=(alt(l+1)-alt(1))/timerr(l+1);
+        Darr(l)=(Parr(l+1)-Parr(l))/(time(l+1)-time(l));
     end
     for l=1:n-2
-        D2arr(l)=(Darr(l+1)-Darr(l))/timerr(l+2);
+        D2arr(l)=(Darr(l+1)-Darr(l))/(time(l+1)-time(l));
     end
     D=sum(Darr)/length(Darr);
     D2=sum(D2arr)/length(D2arr);
@@ -50,11 +55,10 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
         end
     elseif alt(n) < barrier(3)
         status(1)=3;
-%         if mod(time(1),5)~=0 && abs(D)<1 && abs(D2)<0.1
-%             valve=valveopenFilter(P,I,D,D2,Kp,Ki,Kd,Kd2);
-%             status(2:3)=valve(1:2);
-%             status(4:7)=valve(4:7);
-%         end
+        valve=valveopenFilter(P,I,D,D2,Kp,Ki,Kd,Kd2);
+        status(2:3)=valve(1:2);
+        status(4:7)=valve(4:7);
+
     elseif alt(n) < barrier(4)
         status(1)=4;
         if D<=-1 && D2<=0

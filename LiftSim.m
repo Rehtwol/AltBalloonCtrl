@@ -53,7 +53,7 @@ function airtime=LiftSim(PID,TargetAlt,bandwidth)
 %         altnoise=normrnd(mu,sigma)*(Record(cycle,1)-Record(cycle-1,1)); %Random value to add to the altitude measurement, scaled to the timestep
 %         Record(cycle,4)=Record(cycle,4)+altnoise;
         %Valve Conditions
-        status=valveLogicFilter(target,bandwidth,Record(max(1,cycle-30):cycle,4),Record(max(1,cycle-30):cycle,1),PID);
+        status=valveLogicFilter(target,bandwidth,Record(max(1,cycle-10):cycle,4),Record(max(1,cycle-10):cycle,1),PID);
         Record(cycle,8:10)=status(1:3);
         %Mass changes
         GasLoss=vrelease((Record(cycle,4)+Record(cycle-1,4))/2,Record(cycle-1,9)*BalloonValve,BalloonPD);
