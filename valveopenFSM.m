@@ -8,7 +8,7 @@ function valve=valveopenFSM(targetAlt,bandwidth,alt,time,D,D2,Kp,Ki,Kd,Kd2)
         if abs(alterr(r)) > bandwidth/2
             alterr(r)=0;
         end
-        timerr(r)=time(r)-time(max(1,r-1));
+        timerr(r)=time(r)-time(1);
     end
     lopen=1000;
     gopen=100;
