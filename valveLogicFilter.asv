@@ -12,7 +12,7 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
     
     alterr = zeros(n,1);
     timerr = zeros(n,1);
-    weights=(1:W)';
+    weights=(1:W);
 
     for r = 1:n
         alterr(r)=alt(r)-targetAlt;
