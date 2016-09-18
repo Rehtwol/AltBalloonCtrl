@@ -1,15 +1,15 @@
 
-pop = 20;
-gen = 40;
-const=massConstraintPID;
-GAOptions=gaoptimset('PopulationSize',pop,'Generations',gen);
+pop = 50;
+gen = 100;
+const=massConstraintFSM;
+GAOptions=gaoptimset('PopulationSize',pop,'Generations',gen,'UseParallel',true);
 [bestvar,bestobj,history,eval_count]=ga_DSO(@FlightOps,6,[],[],[],[],const(1,:),const(2,:),[],GAOptions);
-max_evals = 100;
-options = optimset('MaxFunEvals',max_evals);
-[bestvar2,bestobj2]=fminsearchcon(@FlightOps,bestvar,const(1,:),const(2,:),[],[],[],options);
+xi = const(3,:);
+options = optimoptions(@fmincon,'Display','iter','Algorithm','interior-point','UseParallel',true)
+[bestvar2,bestobj2]=fmincon(@FlightOps,xi,[],[],[],[],const(1,:),const(2,:),[],options)
 
 
-TargetAlt=[10000,10000;0,5000];
-Record=LiftSimFSM(bestvar2,TargetAlt,500);
+TargetAlt=[10000,8000;0,5000];
+Record=LiftSim(bestvar2,TargetAlt,500);
 plot(Record(:,1),Record(:,4))
 
