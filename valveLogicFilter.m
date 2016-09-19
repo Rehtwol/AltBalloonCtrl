@@ -12,7 +12,8 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
     
     alterr = zeros(n,1);
     timerr = zeros(n,1);
-    weights=(1:W)';
+    %weights=(1:W)';
+    weights=ones(5,1);
 
     for r = 1:n
         alterr(r)=alt(r)-targetAlt;
@@ -58,17 +59,17 @@ function status=valveLogicFilter(targetAlt,bandwidth,alt,time,PID)
             status(2)=1;
         end
     elseif alt(n) < barrier(3)
-        deadzone = abs(D)<1 && abs(D2)<0.1 && P<bandwidth/5;
-        if deadzone
-            status(1)=3.1;
-            status(2:3)=zeros(2,1);
-            status(4:7)=[P,I,D,D2];
-        else
+%         deadzone = abs(D)<1 && abs(D2)<0.1 && P<bandwidth/5;
+%         if deadzone
+%             status(1)=3.1;
+%             status(2:3)=zeros(2,1);
+%             status(4:7)=[P,I,D,D2];
+%         else
             status(1)=3;
             valve=valveopenFilter(P,I,D,D2,Kp,Ki,Kd,Kd2);
             status(2:3)=valve(1:2);
             status(4:7)=valve(4:7);
-        end
+%         end
     elseif alt(n) < barrier(4)
         status(1)=4;
         if D<=-1 && D2<=0
