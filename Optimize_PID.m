@@ -1,6 +1,6 @@
 
 pop = 50;
-gen = 100;
+gen = 25;
 const=massConstraintFSM;
 GAOptions=gaoptimset('PopulationSize',pop,'Generations',gen,'UseParallel',true);
 [bestvar,bestobj,history,eval_count]=ga_DSO(@FlightOps,6,[],[],[],[],const(1,:),const(2,:),[],GAOptions);

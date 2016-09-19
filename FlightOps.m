@@ -4,7 +4,7 @@
 function Suitability=FlightOps(PID)
     %Defining target flight altitudes
     TargetAlt=[10000,10000;0,5000];
-    %Bandwidth for controllers that use it
+    %Bandwidth for controllers that use it, 500 for ISA, 1000 w/ noise
     Bandwidth=500;
     %To ignore initial part of simulation (the ascent) for scoring
     %StartTime>0
