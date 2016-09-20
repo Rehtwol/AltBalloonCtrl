@@ -32,7 +32,7 @@ function Suitability=FlightOps(PID)
             end
         end
 
-    catch ME
+    catch Err
         print('Error in FlightOps:')
-        ME
+        Err
     end

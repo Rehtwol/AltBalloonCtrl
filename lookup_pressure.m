@@ -1,11 +1,16 @@
+% Initially based on code from Ben Oxley, 2012
+% LOOKUP_PRESSURE Calculates pressure and temperature in ISA at given
+%   geometric altitude
+%   Returns 2x1 matrix, Pressure (Pa) and Temperature (K)
 function press = lookup_pressure(altitude)
     R = 287.1; %Specific gas constant for dry air (J/(mol*K))
-    gravity = 9.80665; %Gravity
+    gravity = 9.8; %Gravity
     re = 6371e3; %Mean radius of Earth
-    press = [0,0];
+    press = [0,0]; %Instantiate output matrix
      
-    H = (re*altitude)/(re+altitude);
+    H = (re*altitude)/(re+altitude); %Calculate geopotential height based on geometric altitude
     
+    %Determine the applicable layer of the atmosphere
     if H<11000
         c=0;
     elseif H<20000
@@ -20,6 +25,8 @@ function press = lookup_pressure(altitude)
         press=[0,0];
         return;
     end
+    
+    %Based on applicable layer, set the layer's base conditions
     switch c
         case 0
             h0=0;
@@ -50,12 +57,17 @@ function press = lookup_pressure(altitude)
             press=[0,0];
             return;
     end
-    Temperature = T0+L*(H-h0);
+    
+    Temperature = T0+L*(H-h0); %Calculate temperature at given height
+    
+    %Based on whether the lapse rate is non-zero, calcuate pressure at
+    %height
     if L~=0
         Pressure = P0*(Temperature/T0)^(-gravity/(R*L));
     else
         Pressure = P0*exp(-gravity*(H-h0)/(R*T0));
     end
     
+    %Values to return
     press=[Pressure,Temperature];
 end
