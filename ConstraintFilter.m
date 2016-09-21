@@ -2,6 +2,8 @@
 %   Returns 5x3 matrix, rows are Minimums, Maximums, Initial search point
 %   (if needed for non-general search). Columns are P, I, D, D^2 gains and
 %   window length
+%   
+%   Written by Anthony Lowther, 2016
 function const=ConstraintFilter()
     tmp=zeros(1,5);%Minimums
     tmp(1,:)=[0,0,100,100,1];

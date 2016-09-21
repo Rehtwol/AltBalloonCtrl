@@ -2,6 +2,8 @@
 % LOOKUP_PRESSURE Calculates pressure and temperature in ISA at given
 %   geometric altitude
 %   Returns 2x1 matrix, Pressure (Pa) and Temperature (K)
+%   
+%   Written by Anthony Lowther, 2016
 function press = lookup_pressure(altitude)
     R = 287.1; %Specific gas constant for dry air (J/(mol*K))
     gravity = 9.8; %Gravity

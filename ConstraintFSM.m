@@ -1,6 +1,8 @@
 % CONSTRAINTFSM Provides constraints for FSM controller
 %   Returns 4x3 matrix, rows are Minimums, Maximums, Initial search point
 %   (if needed for non-general search). Columns are P, I, D, D^2 gains
+%   
+%   Written by Anthony Lowther, 2016
 function const=ConstraintFSM()
     tmp=zeros(1,4);%Minimums
     tmp(1,:)=[0,0,100,100];

@@ -1,5 +1,7 @@
 % LOOKUP_CD Calculates Coefficient of drag at given Reynolds number
 %   Returns single value. Curve based on work by Sobester (2014)
+%   
+%   Written by Anthony Lowther, 2016
 function Cd=lookup_cd(Re)
     %Curve-defining characteristics
     Cdl = 0.225;

@@ -3,6 +3,8 @@
 %   altitude measurements, PID matrix of gains
 %   Output: 7x1 matrix, containing Controller mode (from FSM), Gas valve
 %   state, Ballast valve state, P, I, D, D^2 terms (without gains applied)
+%   
+%   Written by Anthony Lowther, 2016
 function status=valveLogicFSM(targetAlt,bandwidth,alt,time,PID)
     %Retrieve gains for controller
     Kp=PID(1);
@@ -41,7 +43,7 @@ function status=valveLogicFSM(targetAlt,bandwidth,alt,time,PID)
         end
     elseif alt(n) < barrier(3)
         status(1)=3;
-        valve=valveopenFSM(targetAlt,bandwidth,alt,time,D,D2,Kp,Ki,Kd,Kd2);
+        valve=valveOpenFSM(targetAlt,bandwidth,alt,time,D,D2,Kp,Ki,Kd,Kd2);
         status(2:3)=valve(1:2);
         status(4:7)=valve(4:7);
     elseif alt(n) < barrier(4)

@@ -8,7 +8,7 @@ gen = 50;
 
 const=ConstraintFilter;%Load constraints
 GAOptions=gaoptimset('PopulationSize',pop,'Generations',gen,'UseParallel',true);%GA options
-[bestvar,bestobj,history,eval_count]=ga_DSO(@FlightOps,6,[],[],[],[],const(1,:),const(2,:),[],GAOptions);%GA optimizer
+[bestvar,bestobj,history,eval_count]=ga(@FlightOps,6,[],[],[],[],const(1,:),const(2,:),[],GAOptions);%GA optimizer
 options = optimoptions(@fmincon,'Display','iter','Algorithm','interior-point','UseParallel',true)%Local search options
 [bestvar2,bestobj2]=fmincon(@FlightOps,bestvar,[],[],[],[],const(1,:),const(2,:),[],options)%Local optimizer
 

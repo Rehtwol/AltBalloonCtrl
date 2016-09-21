@@ -6,6 +6,8 @@
 % Mass, Flight Mode (FSM controller), Gas Valve State (0-1), Ballast Valve
 % State (0-1), P, I, D, D^2 (for controllers that use it), Target Altitude,
 % Buoyancy Force, Gravitational Force, Drag Force
+%   
+%   Written by Anthony Lowther, 2016
 function airtime=LiftSim(PID,TargetAlt,bandwidth)
     %Initial setup details
     GasMass = 0.096;
@@ -64,9 +66,9 @@ function airtime=LiftSim(PID,TargetAlt,bandwidth)
         status=valveLogicFilter(target,bandwidth,Record(max(1,cycle-Window):cycle,4),Record(max(1,cycle-Window):cycle,1),PID); %Call the controller. Ensure that this is the correct controller
         Record(cycle,8:10)=status(1:3); % Record the flight mode (from FSM controller) as well as valve states on a scale from 0-1
         %Mass changes
-        GasLoss=vrelease((Record(cycle,4)+Record(cycle-1,4))/2,Record(cycle-1,9)*BalloonValve,BalloonPD); % Calculate and record lifting gas released
+        GasLoss=GRelease((Record(cycle,4)+Record(cycle-1,4))/2,Record(cycle-1,9)*BalloonValve,BalloonPD); % Calculate and record lifting gas released
         Record(cycle,6)=max(Record(cycle-1,6)-GasLoss*deltaTime,0);
-        BallastLoss=lqddrop(Record(cycle-1,7),Record(cycle-1,10)*BallastA2,BallastDensity,BallastSurface); % Calcilate and record the ballast released
+        BallastLoss=lqdDrop(Record(cycle-1,7),Record(cycle-1,10)*BallastA2,BallastDensity,BallastSurface); % Calcilate and record the ballast released
         Record(cycle,7)=max(Record(cycle-1,7)-BallastLoss*deltaTime,0);
         Record(cycle,5)=Record(cycle,6)+Record(cycle,7)+SysMass; % Calculate the new system all-up mass
 

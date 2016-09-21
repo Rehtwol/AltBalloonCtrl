@@ -1,6 +1,8 @@
 %Scoring function to test controller
 %FLIGHTOPS input is controller parameters in a 1-dimensional matrix
 %   Output is summation of error^2 at each step
+%   
+%   Written by Anthony Lowther, 2016
 function Suitability=FlightOps(PID)
     %Defining target flight altitudes
     TargetAlt=[10000,10000;0,5000];

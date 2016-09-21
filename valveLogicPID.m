@@ -4,6 +4,8 @@
 %   Output: 7x1 matrix, containing 0, Gas valve state, Ballast valve state,
 %   P, I, D terms (without gains applied), 0 (the 0s are place holders to
 %   maintain consistency)
+%   
+%   Written by Anthony Lowther, 2016
 function valve=valveLogicPID(targetAlt,~,alt,time,PID)
     %Retrieve gains for controller
     Kp=PID(1);

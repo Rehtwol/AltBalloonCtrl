@@ -3,10 +3,12 @@
 % vertical velocity of system (m/s)
 %   Output: one-dimensional array containing: acceleration in m/s^2,
 %   buoyancy, gravitational, and drag forces (N)
+%   
+%   Written by Anthony Lowther, 2016
 function accel=liftAccel(altitude,mass,gmass,vel)
     %Determine densities of air and lifting gas (here helium)
-    denair = calculatedensity(altitude,'air');
-    dengas = calculatedensity(altitude,'helium');
+    denair = calculateDensity(altitude,'air');
+    dengas = calculateDensity(altitude,'helium');
     dden = denair-dengas;
     
     g=9.81;

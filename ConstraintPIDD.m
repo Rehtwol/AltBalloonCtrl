@@ -2,7 +2,9 @@
 %   Returns 8x3 matrix, rows are Minimums, Maximums, Initial search point
 %   (if needed for non-general search). Columns are P, I, D, D^2 gains for
 %   ballast then gas release
-function const=massConstraintPIDD()
+%   
+%   Written by Anthony Lowther, 2016
+function const=ConstraintPIDD()
     tmp=zeros(2,4);%Minimums for PID search. Liquid then gas
     tmp(1,:)=[-1000,-1000,-1000,-1000];
     tmp(2,:)=[-1,-1,-1,-1];

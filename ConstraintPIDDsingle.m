@@ -2,6 +2,8 @@
 %   Returns 8x3 matrix, rows are Minimums, Maximums, Initial search point
 %   (if needed for non-general search). Columns are P, I, D, D^2 gains and
 %   Diff term
+%   
+%   Written by Anthony Lowther, 2016
 function const=ConstraintPIDDsingle()
     tmp=zeros(1,5);%Minimums for PIDD search.
     tmp(1,:)=[-1,-1,-1,-1,-100];

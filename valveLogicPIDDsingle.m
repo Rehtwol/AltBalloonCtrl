@@ -3,6 +3,8 @@
 %   Altitude measurements, Times of altitude measurements, PID matrix of gains
 %   Output: 7x1 matrix, containing Generic score, Gas valve state, Ballast 
 %   valve state, P, I, D, D^2 terms (without gains applied)
+%   
+%   Written by Anthony Lowther, 2016
 function valve=valveLogicPIDDsingle(targetAlt,~,alt,time,PID)
     %Retrieve gains for controller
     Kp=PID(1);
