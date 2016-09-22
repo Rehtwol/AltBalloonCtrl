@@ -22,8 +22,8 @@ function valve=valveOpenFSM(targetAlt,bandwidth,alt,time,D,D2,Kp,Ki,Kd,Kd2)
         timerr(r)=time(r)-time(1);
     end
     
-    lopen=1000;
-    gopen=-100;
+    lopen=-100;
+    gopen=1000;
     %Calculate P and I values
     P=(alterr(n));
     I=trapz(timerr,alterr);
