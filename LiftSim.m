@@ -66,10 +66,10 @@ function airtime=LiftSim(PID,TargetAlt,bandwidth)
         %Velocity and Altitude
         Record(cycle,3)=Record(cycle-1,3)+Record(cycle-1,2)*deltaTime; %Velocity calculation
         Record(cycle,4)=Record(cycle-1,4)+(Record(cycle-1,3)+Record(cycle,3))*deltaTime/2; %Altitude change
-%         altnoise=normrnd(mu,sigma)*(Record(cycle,1)-Record(cycle-1,1)); %Random value to add to the altitude measurement, scaled to the timestep
-%         Record(cycle,4)=Record(cycle,4)+altnoise;
+        altnoise=normrnd(mu,sigma)*(Record(cycle,1)-Record(cycle-1,1)); %Random value to add to the altitude measurement, scaled to the timestep
+        Record(cycle,4)=Record(cycle,4)+altnoise;
         %Valve Conditions
-        status=valveLogicFSM(target,bandwidth,Record(max(1,cycle-Window):cycle,4),Record(max(1,cycle-Window):cycle,1),PID); %Call the controller. Ensure that this is the correct controller
+        status=valveLogicFilter(target,bandwidth,Record(max(1,cycle-Window):cycle,4),Record(max(1,cycle-Window):cycle,1),PID); %Call the controller. Ensure that this is the correct controller
         Record(cycle,8:10)=status(1:3); % Record the flight mode (from FSM controller) as well as valve states on a scale from 0-1
         %Mass changes
         GasLoss=GRelease((Record(cycle,4)+Record(cycle-1,4))/2,Record(cycle-1,9)*BalloonValve,BalloonPD); % Calculate and record lifting gas released
